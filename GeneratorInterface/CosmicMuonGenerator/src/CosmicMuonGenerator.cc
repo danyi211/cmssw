@@ -49,7 +49,8 @@ void CosmicMuonGenerator::initialize(CLHEP::HepRandomEngine* rng) {
       std::cout << "  radius of sphere  around  target = " << Target3dRadius << " mm" << std::endl;
 
     if (MinTheta > 90. * Deg2Rad)  //upgoing muons from neutrinos
-      SurfaceRadius = (RadiusCMS) * (-tan(MinTheta)) + MinStepSize;
+      // SurfaceRadius = (RadiusCMS) * (-tan(MinTheta)) + MinStepSize;
+      SurfaceRadius = (RadiusCMS + SurfaceDepth) * (-tan(MinTheta)) + MinStepSize;
     else
       SurfaceRadius = (SurfaceOfEarth + PlugWidth + RadiusTargetEff) * tan(MaxTheta) + Target3dRadius;
     if (Debug)
@@ -174,7 +175,8 @@ void CosmicMuonGenerator::nextEvent() {
 
     double Vy;
     if (MinTheta > 90. * Deg2Rad)  //upgoing muons from neutrinos
-      Vy = -RadiusCMS;
+      // Vy = -RadiusCMS;
+      Vy = - ( RadiusCMS + SurfaceDepth );
     else
       Vy = SurfaceOfEarth + PlugWidth;  // [mm]
 
@@ -195,7 +197,8 @@ void CosmicMuonGenerator::nextEvent() {
     // if angles are ok, propagate to target
     if (goodOrientation()) {
       if (MinTheta > 90. * Deg2Rad)  //upgoing muons from neutrinos
-        OneMuoEvt.propagate(0., RadiusOfTarget, ZDistOfTarget, ZCentrOfTarget, TrackerOnly, MTCCHalf);
+        // OneMuoEvt.propagate(0., RadiusOfTarget, ZDistOfTarget, ZCentrOfTarget, TrackerOnly, MTCCHalf);
+        OneMuoEvt.propagate(ElossScaleFactor, RadiusOfTarget, ZDistOfTarget, ZCentrOfTarget, TrackerOnly, MTCCHalf);
       else
         OneMuoEvt.propagate(ElossScaleFactor, RadiusOfTarget, ZDistOfTarget, ZCentrOfTarget, TrackerOnly, MTCCHalf);
     }
@@ -990,7 +993,7 @@ bool CosmicMuonGenerator::goodOrientation() {
 
   double rVY;
   if (MinTheta > 90. * Deg2Rad)  //upgoing muons from neutrinos
-    rVY = -sqrt(RxzV * RxzV + RadiusCMS * RadiusCMS);
+    rVY = -sqrt(RxzV * RxzV + (RadiusCMS + SurfaceDepth) * (RadiusCMS + SurfaceDepth));
   else
     rVY = sqrt(RxzV * RxzV + (SurfaceOfEarth + PlugWidth) * (SurfaceOfEarth + PlugWidth));
 
@@ -1277,4 +1280,9 @@ double CosmicMuonGenerator::getRate() { return EventRate; }
 void CosmicMuonGenerator::setAcptAllMu(bool AllMu) {
   if (NotInitialized)
     AcptAllMu = AllMu;
+}
+
+void CosmicMuonGenerator::setSurfaceDepth(double SurfaceDepthToCMS) {
+  if (NotInitialized)
+    SurfaceDepth = SurfaceDepthToCMS;
 }

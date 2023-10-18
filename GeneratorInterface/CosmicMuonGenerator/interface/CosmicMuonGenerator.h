@@ -82,6 +82,7 @@ public:
     RhoClay = 2.3;
     RhoPlug = 2.5;
     ClayWidth = 50000;  //[mm]
+    SurfaceDepth = 0.;  //[mm]
 
     std::cout << std::endl;
     std::cout << "*********************************************************" << std::endl;
@@ -220,6 +221,9 @@ private:
 
   bool AcptAllMu;  //Accepting All Muons regardeless of direction
 
+  double SurfaceDepth;  // depth of the surface where upgoing muon is generated 
+                        // relative to bottom of CMS
+
   // random number generator
   CLHEP::HepRandomEngine* RanGen;
   bool delRanGen;
@@ -270,6 +274,8 @@ public:
   void setMaxEnu(double MaxEn);
   void setNuProdAlt(double NuPrdAlt);
   void setAcptAllMu(bool AllMu);
+
+  void setSurfaceDepth(double SurfaceDepthToCMS);
 
   // initialize the generator
   void setRandomEngine(CLHEP::HepRandomEngine* v);

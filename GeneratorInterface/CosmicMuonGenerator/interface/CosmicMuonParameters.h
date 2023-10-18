@@ -9,7 +9,7 @@
 #include "TMath.h"
 
 // flags
-const bool Debug = false;        // debugging printout
+const bool Debug = true;        // debugging printout
 const bool EventDisplay = true;  // display single events (if ROOT_INTERACTIVE is defined as true)
 
 // algorithmic constants
