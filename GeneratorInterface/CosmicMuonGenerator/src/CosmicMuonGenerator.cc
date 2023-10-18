@@ -143,7 +143,7 @@ void CosmicMuonGenerator::nextEvent() {
     double Nver = 0.;
     bool badVertexGenerated = true;
     while (badVertexGenerated) {
-      RxzV = sqrt(RanGen->flat()) * SurfaceRadius;
+      RxzV = sqrt(RanGen->flat()) * SurfaceRadius;  // why sqrt???
       PhiV = RanGen->flat() * TwoPi;
       // check phi range (for a sphere with Target3dRadius around the target)
       double dPhi = Pi;
@@ -203,8 +203,10 @@ void CosmicMuonGenerator::nextEvent() {
         OneMuoEvt.propagate(ElossScaleFactor, RadiusOfTarget, ZDistOfTarget, ZCentrOfTarget, TrackerOnly, MTCCHalf);
     }
 
+    // std::cout << "hit target? : " << OneMuoEvt.hitTarget() << ", P: " << sqrt(OneMuoEvt.e() * OneMuoEvt.e() - MuonMass * MuonMass) << std::endl;
     if ((OneMuoEvt.hitTarget() && sqrt(OneMuoEvt.e() * OneMuoEvt.e() - MuonMass * MuonMass) > MinP_CMS) ||
         AcptAllMu == true) {
+      std::cout << "hit target? : " << OneMuoEvt.hitTarget() << ", P: " << sqrt(OneMuoEvt.e() * OneMuoEvt.e() - MuonMass * MuonMass) << std::endl;
       Nsel += 1.;  //count number of generated and accepted events
       notSelected = false;
     }
@@ -1014,8 +1016,14 @@ bool CosmicMuonGenerator::goodOrientation() {
   double dTheta = Pi;
   if (std::fabs(rVY) > Target3dRadius)
     dTheta = asin(Target3dRadius / std::fabs(rVY));
-  //std::cout << "    dPhi = " <<   dPhi << "  (" <<   Phi << " <p|V> " <<   PhiV << ")" << std::endl;
-  //std::cout << "  dTheta = " << dTheta << "  (" << Theta << " <p|V> " << ThetaV << ")" << std::endl;
+
+  if (MinTheta > 90. * Deg2Rad) {
+    // upgoing muon's vertex could be outside the target sphere
+    ThetaV = - ThetaV;
+    Theta = Pi - Theta;
+  }
+  // std::cout << "    dPhi = " <<   dPhi << "  (" <<   Phi << " <p|V> " <<   PhiV << ")" << " disPhi = " << disPhi << std::endl;
+  // std::cout << "  dTheta = " << dTheta << "  (" << Theta << " <p|V> " << ThetaV << ")" << " disTheta = " << std::fabs(Theta - ThetaV) << std::endl;
 
   if (!phiaccepted && RxzV < Target3dRadius)
     //if (RxzV < Target3dRadius)
