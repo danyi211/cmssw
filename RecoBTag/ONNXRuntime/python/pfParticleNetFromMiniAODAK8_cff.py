@@ -15,6 +15,14 @@ pfParticleNetFromMiniAODAK8TagInfos = ParticleNetFeatureEvaluator.clone(
     max_jet_eta = 2.5,
 )
 
+pfParticleNetFromMiniAODNewlabelAK8TagInfos = ParticleNetFeatureEvaluator.clone(
+    jets = "slimmedJetsAK8",
+    jet_radius = 0.8,
+    min_jet_pt = 180,
+    min_jet_eta = 0.,
+    max_jet_eta = 2.5,
+)
+
 
 pfParticleNetFromMiniAODAK8JetTags = boostedJetONNXJetTagsProducer.clone(
     src = 'pfParticleNetFromMiniAODAK8TagInfos',
@@ -40,7 +48,15 @@ particleNetSonicTriton.toReplaceWith(pfParticleNetFromMiniAODAK8JetTags, _partic
     flav_names = pfParticleNetFromMiniAODAK8JetTags.flav_names,
 ))
 
+pfParticleNetFromMiniAODNewlabelAK8JetTags = boostedJetONNXJetTagsProducer.clone(
+    src = 'pfParticleNetFromMiniAODNewlabelAK8TagInfos',
+    preprocess_json = 'PhysicsTools/NanoCustomized/data/ParticleNetFromMiniAODAK8/Class/preprocess.json',
+    model_path = 'PhysicsTools/NanoCustomized/data/ParticleNetFromMiniAODAK8/Class/particle-net.onnx',
+    flav_names = ['probSingleTau','probHee','probHmm','probHem','probHtt','probHtm','probHte','probHbb','probHcc','probHqq','probHgg','probQCD2hf','probQCD1hf','probQCD0hf'],
+)
+
 pfParticleNetFromMiniAODAK8Task = cms.Task( pfParticleNetFromMiniAODAK8TagInfos, pfParticleNetFromMiniAODAK8JetTags)
+pfParticleNetFromMiniAODNewlabelAK8Task = cms.Task( pfParticleNetFromMiniAODNewlabelAK8TagInfos,pfParticleNetFromMiniAODNewlabelAK8JetTags)
 
 # declare all the discriminators
 # probs
@@ -49,4 +65,8 @@ _pfParticleNetFromMiniAODAK8JetTagsProbs = ['pfParticleNetFromMiniAODAK8JetTags:
 _pfParticleNetFromMiniAODAK8JetTagsMetaDiscr = ['pfParticleNetFromMiniAODAK8DiscriminatorsJetTags:' + disc.name.value()
                                  for disc in pfParticleNetFromMiniAODAK8DiscriminatorsJetTags.discriminators]
 
+_pfParticleNetFromMiniAODNewlabelAK8JetTagsProbs = ['pfParticleNetFromMiniAODNewlabelAK8JetTags:' + flav_name
+                                    for flav_name in pfParticleNetFromMiniAODNewlabelAK8JetTags.flav_names]
+
 _pfParticleNetFromMiniAODAK8JetTagsAll = _pfParticleNetFromMiniAODAK8JetTagsProbs + _pfParticleNetFromMiniAODAK8JetTagsMetaDiscr
+__pfParticleNetFromMiniAODNewlabelAK8JetTagsAll = _pfParticleNetFromMiniAODNewlabelAK8JetTagsProbs

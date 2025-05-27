@@ -10,7 +10,7 @@ from RecoBTag.ONNXRuntime.pfParticleNetFromMiniAODAK4_cff import pfParticleNetFr
 from RecoBTag.ONNXRuntime.pfParticleNetFromMiniAODAK4_cff import pfParticleNetFromMiniAODAK4PuppiForwardTagInfos,pfParticleNetFromMiniAODAK4PuppiForwardJetTags,pfParticleNetFromMiniAODAK4PuppiForwardDiscriminatorsJetTags
 from RecoBTag.ONNXRuntime.pfParticleNetFromMiniAODAK4_cff import pfParticleNetFromMiniAODAK4CHSCentralTagInfos,pfParticleNetFromMiniAODAK4CHSCentralJetTags,pfParticleNetFromMiniAODAK4CHSCentralDiscriminatorsJetTags,pfNegativeParticleNetFromMiniAODAK4CHSCentralJetTags
 from RecoBTag.ONNXRuntime.pfParticleNetFromMiniAODAK4_cff import pfParticleNetFromMiniAODAK4CHSForwardTagInfos,pfParticleNetFromMiniAODAK4CHSForwardJetTags,pfParticleNetFromMiniAODAK4CHSForwardDiscriminatorsJetTags
-from RecoBTag.ONNXRuntime.pfParticleNetFromMiniAODAK8_cff import pfParticleNetFromMiniAODAK8TagInfos,pfParticleNetFromMiniAODAK8JetTags,pfParticleNetFromMiniAODAK8DiscriminatorsJetTags
+from RecoBTag.ONNXRuntime.pfParticleNetFromMiniAODAK8_cff import pfParticleNetFromMiniAODAK8TagInfos,pfParticleNetFromMiniAODAK8JetTags,pfParticleNetFromMiniAODAK8DiscriminatorsJetTags,pfParticleNetFromMiniAODNewlabelAK8TagInfos,pfParticleNetFromMiniAODNewlabelAK8JetTags
 
 ## dictionary with supported jet clustering algorithms
 supportedJetAlgos = {
@@ -953,6 +953,19 @@ def setupBTagging(process, jetSource, pfCandidates, explicitJTA, pvSource, svSou
                                   ),
                                 process, task)
             acceptedTagInfos.append(btagInfo)
+        elif btagInfo == 'pfParticleNetFromMiniAODNewlabelAK8TagInfos':
+            # ParticleNetFromMiniAOD cannot be run on RECO inputs, so need a workaround
+            if pfCandidates.value() != 'packedPFCandidates':
+                raise ValueError("Invalid pfCandidates collection: %s." % pfCandidates.value())
+            addToProcessAndTask(btagPrefix+btagInfo+labelName+postfix,
+                                pfParticleNetFromMiniAODNewlabelAK8TagInfos.clone(
+                                  jets = jetSource,
+                                  vertices = pvSource,
+                                  secondary_vertices = svSource,
+                                  pf_candidates = pfCandidates,
+                                  ),
+                                process, task)
+            acceptedTagInfos.append(btagInfo)
         else:
             print('  --> %s ignored, since not available via RecoBTag.Configuration.RecoBTag_cff!'%(btagInfo))
     # setup all required btagDiscriminators
@@ -1066,6 +1079,18 @@ def setupBTagging(process, jetSource, pfCandidates, explicitJTA, pvSource, svSou
             addToProcessAndTask(
                 newDiscr,
                 pfParticleNetFromMiniAODAK8JetTags.clone(
+                    src = cms.InputTag(btagPrefix+supportedBtagDiscr[discriminator_name][0][0]+labelName+postfix)
+                ),
+                process,
+                task
+            )
+            acceptedBtagDiscriminators.append(discriminator_name)
+        elif btagDiscr=='pfParticleNetFromMiniAODNewlabelAK8JetTags':
+            if hasattr(process, newDiscr):
+                pass
+            addToProcessAndTask(
+                newDiscr,
+                pfParticleNetFromMiniAODNewlabelAK8JetTags.clone(
                     src = cms.InputTag(btagPrefix+supportedBtagDiscr[discriminator_name][0][0]+labelName+postfix)
                 ),
                 process,
