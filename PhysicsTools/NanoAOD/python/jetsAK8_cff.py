@@ -207,7 +207,9 @@ def nanoAOD_addDeepInfoAK8(process, addDeepBTag, addDeepBoostedJet, addDeepDoubl
     if addParticleNet:
         print("Updating process to run ParticleNet joint classification and mass regression")
         from RecoBTag.ONNXRuntime.pfParticleNetFromMiniAODAK8_cff import _pfParticleNetFromMiniAODAK8JetTagsAll as pfParticleNetFromMiniAODAK8JetTagsAll
+        from RecoBTag.ONNXRuntime.pfParticleNetFromMiniAODAK8_cff import _pfParticleNetFromMiniAODNewlabelAK8JetTagsProbs as pfParticleNetFromMiniAODNewlabelAK8JetTagsProbs
         _btagDiscriminators += pfParticleNetFromMiniAODAK8JetTagsAll
+        _btagDiscriminators += pfParticleNetFromMiniAODNewlabelAK8JetTagsProbs
     if addParticleNetMassLegacy:
         from RecoBTag.ONNXRuntime.pfParticleNet_cff import _pfParticleNetMassRegressionOutputs
         _btagDiscriminators += _pfParticleNetMassRegressionOutputs

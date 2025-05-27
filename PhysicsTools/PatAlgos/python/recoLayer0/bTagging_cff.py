@@ -61,6 +61,7 @@ supportedBtagInfos = [
   , 'pfParticleNetFromMiniAODAK4CHSCentralTagInfos'
   , 'pfParticleNetFromMiniAODAK4CHSForwardTagInfos'
   , 'pfParticleNetFromMiniAODAK8TagInfos'
+  , 'pfParticleNetFromMiniAODNewlabelAK8TagInfos'
  
   ]
 # extend for "internal use" in PAT/MINIAOD (renaming)
@@ -313,12 +314,13 @@ for disc in _pfParticleNetFromMiniAODAK4CHSForwardJetTagsProbs:
     supportedBtagDiscr[disc] =  [["pfParticleNetFromMiniAODAK4CHSForwardTagInfos"]]
 for disc in _pfParticleNetFromMiniAODAK4CHSForwardJetTagsMetaDiscr:
     supportedMetaDiscr[disc] = _pfParticleNetFromMiniAODAK4CHSForwardJetTagsProbs
-from RecoBTag.ONNXRuntime.pfParticleNetFromMiniAODAK8_cff import _pfParticleNetFromMiniAODAK8JetTagsProbs,_pfParticleNetFromMiniAODAK8JetTagsMetaDiscr
+from RecoBTag.ONNXRuntime.pfParticleNetFromMiniAODAK8_cff import _pfParticleNetFromMiniAODAK8JetTagsProbs,_pfParticleNetFromMiniAODAK8JetTagsMetaDiscr,_pfParticleNetFromMiniAODNewlabelAK8JetTagsProbs
 for disc in _pfParticleNetFromMiniAODAK8JetTagsProbs:
     supportedBtagDiscr[disc] =  [["pfParticleNetFromMiniAODAK8TagInfos"]]
 for disc in _pfParticleNetFromMiniAODAK8JetTagsMetaDiscr:
     supportedMetaDiscr[disc] = _pfParticleNetFromMiniAODAK8JetTagsProbs
-
+for disc in _pfParticleNetFromMiniAODNewlabelAK8JetTagsProbs:
+    supportedBtagDiscr[disc] =  [["pfParticleNetFromMiniAODNewlabelAK8TagInfos"]]
 
 # -----------------------------------
 # setup HiggsInteractionNet
