@@ -47,10 +47,12 @@ def puppiJetMETReclusterFromMiniAOD(process, runOnMC, useExistingWeights=False, 
   from RecoBTag.ONNXRuntime.pfParticleNet_cff import _pfParticleNetMassCorrelatedJetTagsAll as pfParticleNetMassCorrelatedJetTagsAll
   from RecoBTag.ONNXRuntime.pfParticleNetFromMiniAODAK8_cff import _pfParticleNetFromMiniAODAK8JetTagsAll as pfParticleNetFromMiniAODAK8JetTagsAll
   from RecoBTag.ONNXRuntime.pfGlobalParticleTransformerAK8_cff import _pfGlobalParticleTransformerAK8JetTagsAll as pfGlobalParticleTransformerAK8JetTagsAll
+  from RecoBTag.ONNXRuntime.pfParticleNetFromMiniAODAK8_cff import _pfParticleNetFromMiniAODNewlabelAK8JetTagsAll as pfParticleNetFromMiniAODNewlabelAK8JetTagsAll
   btagDiscriminatorsAK8 = cms.PSet(names = cms.vstring(
       pfParticleNetMassCorrelatedJetTagsAll+
       pfGlobalParticleTransformerAK8JetTagsAll+
       pfParticleNetFromMiniAODAK8JetTagsAll+
+      pfParticleNetFromMiniAODNewlabelAK8JetTagsAll+
       pfParticleNetJetTagsAll+
       pfParticleNetMassRegressionOutputs
     )

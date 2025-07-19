@@ -963,6 +963,7 @@ def setupBTagging(process, jetSource, pfCandidates, explicitJTA, pvSource, svSou
                                   vertices = pvSource,
                                   secondary_vertices = svSource,
                                   pf_candidates = pfCandidates,
+                                  puppi_value_map = puppi_value_map,
                                   ),
                                 process, task)
             acceptedTagInfos.append(btagInfo)

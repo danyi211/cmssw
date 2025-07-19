@@ -88,7 +88,7 @@ def applyDeepBtagging(process, postfix=""):
     # update slimmed jets to include particle-based deep taggers (keep same name)
     # make clone for DeepTags-less slimmed AK8 jets, so output name is preserved
     addToProcessAndTask('slimmedJetsAK8NoDeepTags', slimmedJetsAK8.clone(), process, task)
-    _btagDiscriminatorsAK8 = cms.PSet(names = cms.vstring(pfParticleNetMassCorrelatedJetTagsAll+pfGlobalParticleTransformerAK8JetTagsAll+pfParticleNetFromMiniAODAK8JetTagsAll+pfParticleNetJetTagsAll+pfParticleNetMassRegressionOutputs+pfParticleNetFromMiniAODNewlabelAK8JetTagsAll))
+    _btagDiscriminatorsAK8 = cms.PSet(names = cms.vstring(pfParticleNetMassCorrelatedJetTagsAll+pfGlobalParticleTransformerAK8JetTagsAll+pfParticleNetFromMiniAODAK8JetTagsAll+pfParticleNetFromMiniAODNewlabelAK8JetTagsAll+pfParticleNetJetTagsAll+pfParticleNetMassRegressionOutputs))
     updateJetCollection(
         process,
         jetSource = cms.InputTag('slimmedJetsAK8NoDeepTags'),

@@ -69,4 +69,4 @@ _pfParticleNetFromMiniAODNewlabelAK8JetTagsProbs = ['pfParticleNetFromMiniAODNew
                                     for flav_name in pfParticleNetFromMiniAODNewlabelAK8JetTags.flav_names]
 
 _pfParticleNetFromMiniAODAK8JetTagsAll = _pfParticleNetFromMiniAODAK8JetTagsProbs + _pfParticleNetFromMiniAODAK8JetTagsMetaDiscr
-__pfParticleNetFromMiniAODNewlabelAK8JetTagsAll = _pfParticleNetFromMiniAODNewlabelAK8JetTagsProbs
+_pfParticleNetFromMiniAODNewlabelAK8JetTagsAll = _pfParticleNetFromMiniAODNewlabelAK8JetTagsProbs
