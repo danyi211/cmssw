@@ -151,6 +151,8 @@ def nanoAOD_addDeepInfoAK8(process, addDeepBTag, addDeepBoostedJet, addDeepDoubl
         _btagDiscriminators += pfParticleNetFromMiniAODAK8JetTagsAll
         from RecoBTag.ONNXRuntime.pfParticleNetFromMiniAODAK8_cff import _pfParticleNetFromMiniAODNewlabelAK8JetTagsProbs as pfParticleNetFromMiniAODNewlabelAK8JetTagsProbs
         _btagDiscriminators += pfParticleNetFromMiniAODNewlabelAK8JetTagsProbs
+        from RecoBTag.ONNXRuntime.pfParticleNetFromMiniAODAK8_cff import __pfParticleNetFromMiniAODNewlabelWJetsAK8JetTagsProbs as pfParticleNetFromMiniAODNewlabelWJetsAK8JetTagsProbs
+        _btagDiscriminators += pfParticleNetFromMiniAODNewlabelWJetsAK8JetTagsProbs
     if addParticleNetLegacy:
         from RecoBTag.ONNXRuntime.pfParticleNet_cff import _pfParticleNetJetTagsAll
         _btagDiscriminators += _pfParticleNetJetTagsAll

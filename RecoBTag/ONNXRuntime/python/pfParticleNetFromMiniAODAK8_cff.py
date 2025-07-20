@@ -23,6 +23,14 @@ pfParticleNetFromMiniAODNewlabelAK8TagInfos = ParticleNetFeatureEvaluator.clone(
     max_jet_eta = 2.5,
 )
 
+pfParticleNetFromMiniAODNewlabelWJetsAK8TagInfos = ParticleNetFeatureEvaluator.clone(
+    jets = "slimmedJetsAK8",
+    jet_radius = 0.8,
+    min_jet_pt = 180,
+    min_jet_eta = 0.,
+    max_jet_eta = 2.5,
+)
+
 
 pfParticleNetFromMiniAODAK8JetTags = boostedJetONNXJetTagsProducer.clone(
     src = 'pfParticleNetFromMiniAODAK8TagInfos',
@@ -50,13 +58,21 @@ particleNetSonicTriton.toReplaceWith(pfParticleNetFromMiniAODAK8JetTags, _partic
 
 pfParticleNetFromMiniAODNewlabelAK8JetTags = boostedJetONNXJetTagsProducer.clone(
     src = 'pfParticleNetFromMiniAODNewlabelAK8TagInfos',
-    preprocess_json = 'PhysicsTools/NanoCustomized/data/ParticleNetFromMiniAODAK8/Class/preprocess.json',
-    model_path = 'PhysicsTools/NanoCustomized/data/ParticleNetFromMiniAODAK8/Class/particle-net.onnx',
+    preprocess_json = 'RecoBTag/Combined/data/ParticleNetFromMiniAODNewlabelAK8/Newlabel/preprocess.json',
+    model_path = 'RecoBTag/Combined/data/ParticleNetFromMiniAODNewlabelAK8/Newlabel/modelfile/model.onnx',
+    flav_names = ['probSingleTau','probHee','probHmm','probHem','probHtt','probHtm','probHte','probHbb','probHcc','probHqq','probHgg','probQCD2hf','probQCD1hf','probQCD0hf'],
+)
+
+pfParticleNetFromMiniAODNewlabelWJetsAK8JetTags = boostedJetONNXJetTagsProducer.clone(
+    src = 'pfParticleNetFromMiniAODNewlabelWJetsAK8TagInfos',
+    preprocess_json = 'RecoBTag/Combined/data/ParticleNetFromMiniAODNewlabelAK8/NewlabelWJets/preprocess.json',
+    model_path = 'RecoBTag/Combined/data/ParticleNetFromMiniAODNewlabelAK8/NewlabelWJets/modelfile/model.onnx',
     flav_names = ['probSingleTau','probHee','probHmm','probHem','probHtt','probHtm','probHte','probHbb','probHcc','probHqq','probHgg','probQCD2hf','probQCD1hf','probQCD0hf'],
 )
 
 pfParticleNetFromMiniAODAK8Task = cms.Task( pfParticleNetFromMiniAODAK8TagInfos, pfParticleNetFromMiniAODAK8JetTags)
 pfParticleNetFromMiniAODNewlabelAK8Task = cms.Task( pfParticleNetFromMiniAODNewlabelAK8TagInfos,pfParticleNetFromMiniAODNewlabelAK8JetTags)
+pfParticleNetFromMiniAODNewlabelWJetsAK8Task = cms.Task( pfParticleNetFromMiniAODNewlabelWJetsAK8TagInfos,pfParticleNetFromMiniAODNewlabelWJetsAK8JetTags)
 
 # declare all the discriminators
 # probs
@@ -68,5 +84,9 @@ _pfParticleNetFromMiniAODAK8JetTagsMetaDiscr = ['pfParticleNetFromMiniAODAK8Disc
 _pfParticleNetFromMiniAODNewlabelAK8JetTagsProbs = ['pfParticleNetFromMiniAODNewlabelAK8JetTags:' + flav_name
                                     for flav_name in pfParticleNetFromMiniAODNewlabelAK8JetTags.flav_names]
 
+_pfParticleNetFromMiniAODNewlabelWJetsAK8JetTagsProbs = ['pfParticleNetFromMiniAODNewlabelWJetsAK8JetTags:' + flav_name
+                                    for flav_name in pfParticleNetFromMiniAODNewlabelWJetsAK8JetTags.flav_names]
+
 _pfParticleNetFromMiniAODAK8JetTagsAll = _pfParticleNetFromMiniAODAK8JetTagsProbs + _pfParticleNetFromMiniAODAK8JetTagsMetaDiscr
 _pfParticleNetFromMiniAODNewlabelAK8JetTagsAll = _pfParticleNetFromMiniAODNewlabelAK8JetTagsProbs
+_pfParticleNetFromMiniAODNewlabelWJetsAK8JetTagsAll = _pfParticleNetFromMiniAODNewlabelWJetsAK8JetTagsProbs
